@@ -58,7 +58,7 @@ body {
 }
 
 .about-callback .rte h2.rte-h2 + p {
-    @apply mt-8;  2rem – justera efter behov 
+    @apply mt-8; 
 }
 
 

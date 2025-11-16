@@ -1,0 +1,33 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var content = (ContentModels.PartnerSection)Model.Content;
+    // ModelsBuilder gör "partnersImages" -> PartnersImages
+    var logos = content.PartnersImages; // IEnumerable<MediaWithCrops>
+
+}
+
+<section class="relative py-18 pt-[14rem] bg-neutral">
+    <div class="max-w-7xl mx-auto px-4">
+        @if (logos != null && logos.Any())
+        {
+            <ul class="flex flex-row items-center justify-around">
+                @foreach (var media in logos)
+                {
+                    var alt = !string.IsNullOrWhiteSpace(media?.Name) ? media.Name : "Partner logo";
+                    <li>
+                        <img src="@media?.Url()" alt="@alt"
+                             loading="lazy" decoding="async"
+                             class="h-10 md:h-12 w-auto object-contain transition" />
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <!-- Valfritt: ta bort om du inte vill ha fallback -->
+            <p class="text-center text-sm text-body-text/70">No partner logos yet.</p>
+        }
+    </div>
+</section>

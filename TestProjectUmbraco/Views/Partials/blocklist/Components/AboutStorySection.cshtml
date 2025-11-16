@@ -1,0 +1,38 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var content = (ContentModels.AboutStorySection)Model.Content;
+
+    var image = content.StoryImage;
+    var label = content.StoryPersonLabel;
+    var body = content.StoryBody;
+}
+
+<section class="py-[5rem]">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex gap-12">
+            @if (image != null)
+            {
+                <div class="flex md:justify-start">
+                    <div>
+                        <img src="@image.Url()"
+                             class="h-auto rounded-sm" />
+                        @if (!string.IsNullOrWhiteSpace(label))
+                        {
+                            <p class="text-sm text-body-text/70 mt-4 italic">
+                                @label
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="md:pl-8">
+                <div class="rte max-w-xl">
+                    @Html.Raw(body)
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,99 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var content = (ContentModels.ContactMapSection)Model.Content;
+
+    var label = content.ContactMapLabel;
+    var title = content.ContactMapTitle;
+    var text = content.ContactMapText;
+    var mapImage = content.ContactMapImage;
+
+    var namePh = content.ContactMapNamePlaceholder;
+    var emailPh = content.ContactMapEmailPlaceholder;
+    var phonePh = content.ContactMapPhonePlaceholder;
+    var buttonText = content.ContactMapButtonText;
+}
+
+<section class="bg-neutral">
+
+    <div class="relative w-full h-[500px] overflow-visible">
+        @if (mapImage != null)
+        {
+            <img src="@mapImage.Url()"
+                 alt=""
+                 class="w-full h-full object-cover select-none pointer-events-none" />
+
+            <div class="absolute inset-0 pointer-events-none"
+                 style="background: rgba(63, 74, 69, 0.18);">
+            </div>
+        }
+
+        <div class="absolute w-full max-w-4xl z-10"
+             style="left:50%; transform:translateX(-50%); bottom:-120px;">
+            <div class="bg-neutral flex flex-col gap-4 shadow-xl rounded-sm md:p-12" style="padding: 4rem; margin-bottom: -1rem;">
+                @if (!string.IsNullOrWhiteSpace(label))
+                {
+                    <p class="text-center text-secondary font-semibold text-body-text opacity-70 mb-3 uppercase">
+                        @label
+                    </p>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(title))
+                {
+                    <h2 class="text-center text-3xl md:text-4xl font-bold text-primary leading-tight mb-5">
+                        @title
+                    </h2>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(text?.ToString()))
+                {
+                    <div class="text-center text-body-text/70 text-sm max-w-xl mx-auto mb-8 rte">
+                        @Html.Raw(text)
+                    </div>
+                }
+
+                <form class="space-y-4" novalidate>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text"
+                               placeholder="@namePh"
+                               class="w-full border border-border-gray bg-neutral px-4 py-3 text-sm rounded-sm
+                                      focus:outline-none focus:ring-[1px] focus:ring-secondary/60" />
+
+                        <input type="text"
+                               placeholder="@phonePh"
+                               class="w-full border border-border-gray bg-neutral px-4 py-3 text-sm rounded-sm
+                                      focus:outline-none focus:ring-[1px] focus:ring-secondary/60" />
+
+                        <input type="email"
+                               placeholder="@emailPh"
+                               class="w-full border border-border-gray bg-neutral px-4 py-3 text-sm rounded-sm
+                                      focus:outline-none focus:ring-[1px] focus:ring-secondary/60" />
+
+                        <div class="relative">
+                            <select class="appearance-none w-full border border-border-gray bg-neutral px-4 py-3 pr-10
+                                           text-sm rounded-sm focus:outline-none focus:ring-[1px] focus:ring-secondary/60">
+                                <option disabled selected>Financial consulting</option>
+                                <option>Business</option>
+                                <option>Tax planning</option>
+                            </select>
+
+                            <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-body-text/70">
+                                ▼
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center mt-6">
+                        <button type="button"
+                                class="inline-flex items-center justify-center px-10 py-3
+                                       bg-primary text-neutral font-semibold rounded-sm
+                                       hover:opacity-80 transition">
+                            @buttonText
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

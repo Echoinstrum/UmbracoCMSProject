@@ -1,0 +1,72 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var content = (ContentModels.TestimonialsSection)Model.Content;
+
+    var label = content.TestimonialLabel;
+    var title = content.TestimonialTitle;
+    var description = content.TestimonialDescription;
+    var rating = content.TestimonialRating;
+    var name = content.TestimonialName;
+    var company = content.TestimonialCompany;
+    var image = content.TestimonialImage;
+}
+
+<section class="py-[6rem] bg-white-100">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
+
+        <div class="flex flex-col gap-2 w-8/12">
+
+            @if (!string.IsNullOrWhiteSpace(label))
+            {
+                <p class="text-xs text-secondary font-bold text-body-text/70 uppercase">
+                    @label
+                </p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(title))
+            {
+                <h2 class="text-3xl md:text-4xl font-bold text-primary leading-snug">
+                    @title
+                </h2>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(description))
+            {
+                <p class="text-body-text/70 text-sm leading-relaxed mt-2">
+                    @description
+                </p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(rating))
+            {
+                <p class="mt-4 text-primary text-base">
+                    @rating
+                </p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(name))
+            {
+                <div class="mt-2">
+                    <p class="font-semibold text-primary">@name</p>
+
+                    @if (!string.IsNullOrWhiteSpace(company))
+                    {
+                        <p class="text-body-text/70 text-sm">@company</p>
+                    }
+                </div>
+            }
+        </div>
+
+        <div>
+            @if (image != null)
+            {
+                <img src="@image.Url()"
+                     alt="@name"
+                     class="rounded-sm w-full object-cover shadow-lg" />
+            }
+        </div>
+
+    </div>
+</section>

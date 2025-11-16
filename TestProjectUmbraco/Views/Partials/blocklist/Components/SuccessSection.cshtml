@@ -1,0 +1,55 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    var content = (ContentModels.SuccessSection)Model.Content;
+    var settings = Model.Settings as ContentModels.SuccessSettings;
+
+    var label = content.SuccessLabel;
+    var title = content.SuccessTitle;
+    var dotmap = content.SuccessDotmap;
+    var stats = content.SuccessStat; 
+    var photo = content.SuccessImage;
+
+    var bg = settings?.SuccessBackgroundColor?.Color ?? "#3f4a45";
+}
+
+<section class="relative overflow-visible py-[7rem] pb-24" style="background-color:@bg">
+    @if (dotmap != null)
+    {
+        <img src="@dotmap.Url()" alt="" aria-hidden="true"
+             class="max-w-7xl pointer-events-none select-none absolute inset-0 mx-auto h-auto opacity-40 object-contain z-10 mt-28" />
+    }
+
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        @if (!string.IsNullOrWhiteSpace(label))
+        {
+            <span class="block text-[.75rem] text-secondary font-bold tracking-widest uppercase opacity-70">@label</span>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(title))
+        {
+            <h2 class="mt-2 text-3xl md:text-4xl font-bold text-neutral">@title</h2>
+        }
+
+        @if (stats != null && stats.Count > 0)
+        {
+            <div class="mt-10 pb-12 grid grid-cols-1 md:grid-cols-3 text-white">
+                @foreach (var s in stats)
+                {
+                    var item = (ContentModels.SuccessStat)s.Content;
+                    <div class="flex flex-col items-center">
+                        <div class="text-7xl font-semibold text-secondary">@item.StatValue</div>
+                        <p class="mt-2 max-w-[22rem] text-sm text-neutral leading-snug opacity-90">@item.StatText</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (photo != null)
+    {
+        <div class="relative z-10 max-w-5xl mx-auto px-4">
+            <img src="@photo.Url()" alt="" class="block w-full h-auto shadow-xl -mb-[16rem]" />
+        </div>
+    }
+</section>

@@ -1,0 +1,49 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@{
+    var content = (ContentModels.TrustedBySection)Model.Content;
+
+    var title = content.TrustedTitle;
+    var highlight = content.TrustedHighlight;
+    var introHtml = content.TrustedIntro;
+    var bg = content.TrustedBackgroundImage;
+    var groupImg = content.TrustedPeopleGroupImage;
+    var ctaText = content.TrustedCtaText;
+}
+
+<section class="relative pt-[6rem]">
+    @if (bg != null)
+    {
+        <img src="@bg.Url()" alt="" class="pointer-events-none absolute inset-2 mx-auto -z-10 max-w-[900px] w-full h-auto object-contain mt-[9rem]" />
+    }
+
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h2 class="flex flex-col gap-2 text-primary font-bold text-3xl md:text-4xl leading-tight">
+            @title<br />
+            <span class="text-secondary">@highlight</span>
+        </h2>
+
+        @if (!string.IsNullOrWhiteSpace(introHtml?.ToString()))
+        {
+            <div class="rte max-w-2xl mx-auto my-6 text-body-text/80">
+                @Html.Raw(introHtml)
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(ctaText))
+        {
+            <button type="button"
+                    class="inline-block bg-main-light text-secondary font-bold rounded-sm px-6 py-3 mb-6 hover:opacity-90 transition cursor-pointer">
+                @ctaText
+            </button>
+        }
+    </div>
+
+    @if (groupImg != null)
+    {
+        <div class="pointer-events-none mt-12 flex justify-center">
+            <img src="@groupImg.Url()" alt="" class="h-auto object-cover" />
+        </div>
+    }
+</section>

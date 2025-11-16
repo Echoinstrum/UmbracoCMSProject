@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Extensions
+
+@{
+    var siteSettings = Umbraco.ContentAtRoot()
+        .OfType<SiteSettings>()
+        .FirstOrDefault();
+
+    var year = DateTime.Now.Year;
+    var copyright = siteSettings?.Value<string>("footerCopyright")
+        ?? $"© {year} Onatrix. All Rights Reserved.";
+    var creditPrefix = siteSettings?.Value<string>("footerCreditPrefix")
+        ?? "Credits to";
+    var creditText = siteSettings?.Value<string>("footerCreditText")
+        ?? "Themesflat";
+}
+
+<footer class="bg-dark text-body-text text-xs items-center text-center py-3">
+    <div class="max-w-7xl mx-auto px-4 flex gap-1 items-center text-body-text text-xs text-center py-3">
+        <span>@copyright</span>
+        @if (!string.IsNullOrWhiteSpace(creditText))
+        {
+                <span> @creditPrefix </span>
+                <span class="text-secondary font-semibold">@creditText</span>
+        }
+    </div>
+</footer>

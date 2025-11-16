@@ -1,0 +1,90 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Extensions
+
+@{
+    var content = (ContentModels.AboutUsSection)Model.Content;
+    var settings = Model.Settings as ContentModels.AboutUsSettings;
+
+    var bgHex = settings?.AboutUsBackgroundColor?.Color ?? "#f7f7f7";
+
+    var siteSettings = Umbraco.ContentAtRoot().FirstOrDefault(x => x.ContentType.Alias == "siteSettings");
+    var address = siteSettings?.Value<string>("contactAddress");
+    var phone = siteSettings?.Value<string>("contactPhone");
+    var email = siteSettings?.Value<string>("contactEmail");
+}
+
+<section class="pt-20" style="background-color:@bgHex">
+    <div class="max-w-7xl mx-auto px-2 gap-24 flex items-center">
+
+        <div>
+            @if (content.AboutUsImage != null)
+            {
+                <img src="@content.AboutUsImage.Url()" alt="@content.AboutUsImage.Name" class="w-full h-auto" />
+            }
+        </div>
+
+        <div class="w-4/12">
+            @if (!string.IsNullOrWhiteSpace(content.AboutUsTitle))
+            {
+                <h2 class="rte-h2 leading-none">
+                    <span class="text-primary">@content.AboutUsTitle</span>
+                </h2>
+            }
+
+            <div class="mt-8 space-y-8">
+
+                @if (!string.IsNullOrWhiteSpace(address))
+                {
+                    <div class="flex items-start gap-4">
+                        <span class="shrink-0 text-secondary" aria-hidden="true">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 21s7-5.373 7-11a7 7 0 10-14 0c0 5.627 7 11 7 11z" />
+                                <circle cx="12" cy="10" r="2.5" />
+                            </svg>
+                        </span>
+                        <div>
+                            <p class="text-primary font-bold">Office location</p>
+                            <p class="text-body-text">@address</p>
+                        </div>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(phone))
+                {
+                    <div class="flex items-start gap-4">
+                        <span class="shrink-0 text-secondary" aria-hidden="true">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M3 5a2 2 0 012-2h2.2a1.5 1.5 0 011.4 1.0l1 3a1.5 1.5 0 01-.4 1.5L8.8 10.9a12.5 12.5 0 004.3 4.3l1.9-1.4a1.5 1.5 0 011.5-.4l3 1a1.5 1.5 0 011 .4V19a2 2 0 01-2 2h-1C9.82 21 3 14.18 3 6V5z" />
+                            </svg>
+                        </span>
+                        <div>
+                            <p class="text-primary font-bold">Phone number</p>
+                            <p class="text-body-text">@phone</p>
+                        </div>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(email))
+                {
+                    <div class="flex items-start gap-4">
+                        <span class="shrink-0 text-secondary" aria-hidden="true">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M4 6h16a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M22 8l-10 6L2 8" />
+                            </svg>
+                        </span>
+                        <div>
+                            <p class="text-primary font-bold">E-mail address</p>
+                            <a href="mailto:@email" class="text-body-text underline hover:no-underline">@email</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
